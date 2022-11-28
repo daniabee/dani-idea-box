@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Ideas from "./Ideas";
+import Form from "./Form";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      ideas: [],
+    };
+  }
+
+  addIdea = (newIdea) => {
+    this.setState({ ideas: [...this.state.ideas, newIdea] });
+  };
+
+  deleteIdea = (id) => {
+    console.log(id);
+    const filterIdeas = this.state.ideas.filter((idea) => idea.id != id);
+    this.setState({ ideas: filterIdeas });
+  };
+
+  render() {
+    return (
+      <main className="App">
+        <h1>IdeaBox</h1>
+        <Form addIdea={this.addIdea} />
+        {!this.state.ideas.length && <h2>No ideas yet -- add some!</h2>}
+        <Ideas ideas={this.state.ideas} deleteIdea={this.deleteIdea} />
+      </main>
+    );
+  }
 }
 
 export default App;
